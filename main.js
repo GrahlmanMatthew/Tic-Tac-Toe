@@ -153,4 +153,11 @@ function play_again_prompt(){
     return false;
 }
 
-play_game();
+// Main method
+function main(){
+    play_game();
+}
+
+if (require.main === module) {
+    main();
+  }

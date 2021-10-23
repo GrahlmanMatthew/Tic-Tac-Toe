@@ -1,5 +1,5 @@
 # Tic-Tac-Toe CLI Game
-This is a simple Tic-Tac-Toe game that can be played in 2 different modes on a command line interface (CLI);
+This is a simple Tic-Tac-Toe game that can be played in 2 different modes on the console;
 1. Player vs .Player
 2. Player vs. Random Computer
 
