@@ -46,6 +46,8 @@ function get_move_placement(placement_prompt, board, piece, comp){
             if(board.valid_piece_placement(placement)){
                 board.place_piece(piece, placement);
                 board.print();
+
+                // has won?
             }
             else{
                 if(!comp){
@@ -93,4 +95,8 @@ b.print_example();
 for(var turn_num = 1; turn_num < 100; turn_num++){
     var placement_prompt = "Select a place on the board: 1 (TL), 2 (TM), 3 (TR), 4 (ML), 5 (MM), 6 (MR), 7 (BL), 8 (BM), 9 (BR), -1 (HELP: SHOW EXAMPLE): ";
     play_turn(turn_num, gamemode, b, placement_prompt);
+    if(b.check_win(b)){
+        console.log("You win!")
+        break;
+    }
 }

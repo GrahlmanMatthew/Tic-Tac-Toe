@@ -16,6 +16,24 @@ class Board {
         this.board[index] = (this.valid_piece_placement(index) ? piece_type : '')
     }
 
+    check_win(){
+        let win = false;
+        if(this.check_row(this.board)){
+            win = true;
+        }
+        return win;
+    }
+
+    check_row(){
+        let row = false;
+        for(let i = 0; i < 9; i+=3){
+            if(this.board[i] == this.board[i+1] && this.board[i] == this.board[i+2] && !!this.board[i]){
+                row = true;
+            }
+        }
+        return row;
+    }
+
     generate_square_string(i, board=this.board){
         let line = "";
         let index = i + 1;
