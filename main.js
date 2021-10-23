@@ -25,6 +25,34 @@ function get_selection(msg, lb, ub){
 }
 
 
+function play_game(){
+    let play = true;
+    while (play) {
+        console.log("\nWelcome to Tic-Tac-Toe!\n-------------------------");
+        var gamemode_prompt = "Please select a gamemode type; (1) Player vs. Player, (2) Player vs. Computer: "
+        var gamemode = get_selection(gamemode_prompt, 1, 2);
+        
+        let b = new Board();
+        console.log(`\nExample Board:\n---------------`)
+        b.print_example();
+
+        for(var turn_num = 1; turn_num < b.get_board_len(); turn_num++){
+            var placement_prompt = "Select a place on the board: 1 (TL), 2 (TM), 3 (TR), 4 (ML), 5 (MM), 6 (MR), 7 (BL), 8 (BM), 9 (BR), -1 (HELP: SHOW EXAMPLE): ";
+            play_turn(turn_num, gamemode, b, placement_prompt);
+            if(b.check_win()){
+                print_winner_output(turn_num, gamemode, b);
+                play = play_again_prompt();
+                break;
+            }
+            if(turn_num == 9){
+                console.log("\nLadies and gentlemen, we have a draw...");
+                play = play_again_prompt();
+                break;
+            }
+        }
+    }
+}
+
 /* Prompts the user for a move placement
     placement_prompt: the prompt for the user
     board: the board instance
@@ -125,29 +153,4 @@ function play_again_prompt(){
     return false;
 }
 
-// Main game loop
-let play = true;
-while (play) {
-    console.log("\nWelcome to Tic-Tac-Toe!\n-------------------------");
-    var gamemode_prompt = "Please select a gamemode type; (1) Player vs. Player, (2) Player vs. Computer: "
-    var gamemode = get_selection(gamemode_prompt, 1, 2);
-    
-    let b = new Board();
-    console.log(`\nExample Board:\n---------------`)
-    b.print_example();
-
-    for(var turn_num = 1; turn_num < b.get_board_len(); turn_num++){
-        var placement_prompt = "Select a place on the board: 1 (TL), 2 (TM), 3 (TR), 4 (ML), 5 (MM), 6 (MR), 7 (BL), 8 (BM), 9 (BR), -1 (HELP: SHOW EXAMPLE): ";
-        play_turn(turn_num, gamemode, b, placement_prompt);
-        if(b.check_win()){
-            print_winner_output(turn_num, gamemode, b);
-            play = play_again_prompt();
-            break;
-        }
-        if(turn_num == 9){
-            console.log("\nLadies and gentlemen, we have a draw...");
-            play = play_again_prompt();
-            break;
-        }
-    }
-}
+play_game();
