@@ -18,7 +18,7 @@ class Board {
 
     check_win(){
         let win = false;
-        if(this.check_row(this.board)){
+        if(this.check_row() || this.check_col()){
             win = true;
         }
         return win;
@@ -32,6 +32,16 @@ class Board {
             }
         }
         return row;
+    }
+
+    check_col(){
+        let col = false;
+        for(let i = 0; i < 3; i++){
+            if(this.board[i] == this.board[i+3] && this.board[i] == this.board[i+6] && !!this.board[i]){
+                col = true;
+            }
+        }
+        return col;
     }
 
     generate_square_string(i, board=this.board){
