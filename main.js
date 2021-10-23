@@ -68,11 +68,14 @@ function get_move_placement(placement_prompt, board, piece, comp){
 */
 function play_turn(turn_num, gamemode, board, placement_prompt){
     let turn_string = `Turn #${turn_num}\n-------------------------`
+    let player_turn = null;
     if(turn_num % 2 == 1){
+        player_turn = 1;
         console.log(`\nPlayer #1's Turn - ${turn_string}`);
         get_move_placement(placement_prompt, board, 'X', false);        
     }
     else {
+        player_turn = 2;
         if (gamemode == 1){
             console.log(`\nPlayer #2's Turn - ${turn_string}`);
             get_move_placement(placement_prompt, board, 'O', false);
@@ -84,19 +87,67 @@ function play_turn(turn_num, gamemode, board, placement_prompt){
     }
 }
 
-console.log("Welcome to Tic-Tac-Toe!\n--------------------");
-var gamemode_prompt = "Please select a gamemode type; (1) Player vs. Player, (2) Player vs. Computer: "
-var gamemode = get_selection(gamemode_prompt, 1, 2);
+/* Prints the output for the winner of the game
+    player_turn: current turn # to determine winning player
+    gamemode: 1 is pvp, 2 is pvc, to determine if player or computer won
+    board: the board instance
+*/
+function print_winner_output(player_turn, gamemode, board){
+    player_num = null;
+    if(player_turn % 2 == 1){
+        player_num = 1;
+    }
+    else {
+        player_num = 2;
+    }
 
-let b = new Board();
-console.log(`\nExample Board:\n---------------`)
-b.print_example();
+    if(gamemode == 1){
+        console.log(`\nCongratulations Player #${player_num}, you won!`);
+    }
+    else if(gamemode == 2){
+        if(player_num == 1){
+            console.log(`\nCongratulations Player #${player_num}, you won!`);
+        }
+        else if(player_num == 2){
+            console.log("\nThe Computer won! Better luck next time...");
+        }
+    }
+}
 
-for(var turn_num = 1; turn_num < 100; turn_num++){
-    var placement_prompt = "Select a place on the board: 1 (TL), 2 (TM), 3 (TR), 4 (ML), 5 (MM), 6 (MR), 7 (BL), 8 (BM), 9 (BR), -1 (HELP: SHOW EXAMPLE): ";
-    play_turn(turn_num, gamemode, b, placement_prompt);
-    if(b.check_win(b)){
-        console.log("You win!")
-        break;
+// Prompts the user to see whether they'd like to play another game
+function play_again_prompt(){
+    var pa_prompt = "\nWould you like to play again? 1 (Yes), 2 (No): "
+    var pa = get_selection(pa_prompt, 1, 2);
+
+    if(pa == 1){
+        return true;
+    }
+    return false;
+}
+
+// Main game loop
+let play = true;
+while (play) {
+    console.log("\nWelcome to Tic-Tac-Toe!\n-------------------------");
+    var gamemode_prompt = "Please select a gamemode type; (1) Player vs. Player, (2) Player vs. Computer: "
+    var gamemode = get_selection(gamemode_prompt, 1, 2);
+    
+    let b = new Board();
+    console.log(`\nExample Board:\n---------------`)
+    b.print_example();
+
+    for(var turn_num = 1; turn_num < b.get_board_len(); turn_num++){
+        var placement_prompt = "Select a place on the board: 1 (TL), 2 (TM), 3 (TR), 4 (ML), 5 (MM), 6 (MR), 7 (BL), 8 (BM), 9 (BR), -1 (HELP: SHOW EXAMPLE): ";
+        play_turn(turn_num, gamemode, b, placement_prompt);
+        if(b.check_win()){
+            print_winner_output(turn_num, gamemode, b);
+            play = play_again_prompt();
+            break;
+        }
+        if(turn_num == 9){
+            console.log("\nLadies and gentlemen, we have a draw...");
+            play = play_again_prompt();
+            break;
+        }
     }
 }

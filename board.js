@@ -1,9 +1,18 @@
 class Board {
     constructor(){
-        this.board = ['', '', '', '', '', '', '', '', '']
-        this.sample_board = ['TL', 'TM', 'TR', 'ML', 'MM', 'MR', 'BL', 'BM', 'BR']
+        this.board = ['', '', '', '', '', '', '', '', ''];
+        this.sample_board = ['TL', 'TM', 'TR', 'ML', 'MM', 'MR', 'BL', 'BM', 'BR'];
     }
 
+    get_board(){
+        return this.board;
+    }
+
+    get_board_len(){
+        return (this.board.length) + 1;
+    }
+
+    // Determines whether a move is valid using the index (location to move to)
     valid_piece_placement(index){
         let valid = true;
         if(!!this.board[index]){
@@ -12,6 +21,7 @@ class Board {
         return valid;
     }
 
+    // Places the piece on the board only if its valid move
     place_piece(piece_type, index){
         this.board[index] = (this.valid_piece_placement(index) ? piece_type : '')
     }
@@ -55,6 +65,7 @@ class Board {
         return diag;
     }
 
+    // Generates a tile in the board dependning on its index i
     generate_square_string(i, board=this.board){
         let line = "";
         let index = i + 1;
