@@ -18,13 +18,13 @@ class Board {
 
     check_win(){
         let win = false;
-        if(this.check_row() || this.check_col()){
+        if(this.check_rows() || this.check_cols() || this.check_diagonals()){
             win = true;
         }
         return win;
     }
 
-    check_row(){
+    check_rows(){
         let row = false;
         for(let i = 0; i < 9; i+=3){
             if(this.board[i] == this.board[i+1] && this.board[i] == this.board[i+2] && !!this.board[i]){
@@ -34,7 +34,7 @@ class Board {
         return row;
     }
 
-    check_col(){
+    check_cols(){
         let col = false;
         for(let i = 0; i < 3; i++){
             if(this.board[i] == this.board[i+3] && this.board[i] == this.board[i+6] && !!this.board[i]){
@@ -42,6 +42,17 @@ class Board {
             }
         }
         return col;
+    }
+
+    check_diagonals(){
+        let diag = false;
+        if(this.board[0] == this.board[4] && this.board[0] == this.board[8] && !!this.board[0]){
+            diag = true;
+        }
+        if(this.board[2] == this.board[4] && this.board[2] == this.board[6] && !!this.board[2]){
+            diag = true;
+        }
+        return diag;
     }
 
     generate_square_string(i, board=this.board){
