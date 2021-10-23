@@ -12,9 +12,11 @@ function get_selection(msg, lb, ub){
         sel = prompt(msg);
         if(sel >= lb && sel <= ub){
             break;
-        } else if (!sel) {
+        } 
+        else if (sel == null) {
             process.exit(1);
-        } else {
+        } 
+        else {
             console.log("\nInvalid Selection!")
             sel = 0;
         }
@@ -32,15 +34,13 @@ function get_selection(msg, lb, ub){
 function get_move_placement(placement_prompt, board, piece, comp){
     placement = -2;
     while(placement == -2){
-        if(!comp){
-            placement = get_selection(placement_prompt, -1, 8);
-        }
-        else{
-            placement = Math.floor(Math.random() * 9);
-        }
+        placement = (!comp ? get_selection(placement_prompt, -1, 8) : Math.floor(Math.random() * 9))
         if(placement == -1){
             console.log(`\nExample Board:\n---------------\n${board.print_example()}\n`);
             placement = -2;
+        }
+        else if(placement == null){
+            process.exit(1);
         }
         else {
             if(board.valid_piece_placement(placement)){
@@ -48,31 +48,15 @@ function get_move_placement(placement_prompt, board, piece, comp){
                 board.print();
             }
             else{
-                console.log("\nInvalid selection! That space is filled.");
+                if(!comp){
+                    console.log("\nInvalid selection! That space is filled.");
+                }
                 placement = -2;
             }
         }
     }
 }
 
-
-/* Generates a random move for the computer player
-    board: the board instance
-    piece: piece type, X or O
-*/
-// function get_random_move_placement(board, piece){
-//     var index = -1;
-//     while(index == -1){
-//         index = Math.floor(Math.random() * 9);
-//         if(board.valid_piece_placement(index)){
-//             board.place_piece(piece, index);
-//             board.print();
-//         }
-//         else{
-//             index = -1;
-//         }
-//     }
-// }
 
 /* Advances the game one turn
     turn_num: current turn #
@@ -93,7 +77,7 @@ function play_turn(turn_num, gamemode, board, placement_prompt){
         }
         else if(gamemode == 2){
             console.log(`\nComputer's Turn - ${turn_string}`);
-            get_random_move_placement(board, 'O', true);
+            get_move_placement(placement_prompt, board, 'O', true);
         }
     }
 }
