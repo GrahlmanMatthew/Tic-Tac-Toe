@@ -24,7 +24,7 @@ function get_selection(msg, lb, ub){
     return sel;
 }
 
-
+// Play game function controls the Tic-Tac-Toe game, including whether or not another game is played
 function play_game(){
     let play = true;
     while (play) {
